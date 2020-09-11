@@ -1,11 +1,15 @@
 import React from 'react'
 import './styles/styles.scss';
 import AppRouter from './routers/AppRouter';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const JournalApp = () => {
     return (
 
-        <AppRouter />
+        <Provider store={store}>
+            <AppRouter />
+        </Provider>
 
     )
 }

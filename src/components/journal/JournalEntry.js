@@ -15,7 +15,7 @@ const JournalEntry = () => {
 
             <div className="journal__entry-body">
                 <p className="journal__entry-title"> Un nuevo dia</p>
-                <p className="journal__entry-content"> lorem1dasdasdasdasdasdasdasdasdasdasdasdas</p>
+                <p className="journal__entry-content"> lorem1dasdasdasd</p>
 
             </div>
 
