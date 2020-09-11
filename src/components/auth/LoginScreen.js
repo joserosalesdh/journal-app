@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { login } from '../../actions/auth';
+import { startLoginEmailPassword } from '../../actions/auth';
 import { useForm } from '../../hooks/useForm';
 
 const LoginScreen = () => {
@@ -18,7 +18,7 @@ const LoginScreen = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch(login(12345, 'Josesiño')); //Mando como accion el login
+        dispatch(startLoginEmailPassword(email, password)); //Mando como accion el login
         //pongo un id y nombre cualquiera 
     }
 
