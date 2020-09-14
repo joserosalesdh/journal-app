@@ -1,4 +1,5 @@
-import { types } from "../types/types"
+import { types } from "../types/types";
+import { firebase, googleAuthProvider } from '../firebase/firebase-config'
 
 
 export const startLoginEmailPassword = (email, password) => {
@@ -9,6 +10,17 @@ export const startLoginEmailPassword = (email, password) => {
         }, 3500);
 
     }
+}
+
+export const startGoogleLogin = () => {
+    return (dispatch) => {
+        firebase.auth().signInWithPopup(googleAuthProvider) //Todo este codigo va a retornar una promesa
+            .then(({ user }) => { //extraigo el user, porque puedo usar la desustructuracion para extraer el user que se logeo con google
+                dispatch(
+                    login(user.uid, user.displayName)
+                )
+            });
+    };
 }
 
 export const login = (uid, displayName) => ({
