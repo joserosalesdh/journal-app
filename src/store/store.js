@@ -1,12 +1,14 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { authReducer } from '../reducers/authReducer';
 import thunk from 'redux-thunk';
+import { uiReducer } from '../reducers/uiReducer';
 //Thunk es un middleware encargado de hacer esa parte especificamente, es perfecto para acciones asincronas 
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose; //https://github.com/zalmoxisus/redux-devtools-extension#usage
 
 const reducers = combineReducers({
-    auth: authReducer // Tengo una propiedad atuh que es manejada por mi authReducer
+    auth: authReducer, // Tengo una propiedad auth que es manejada por mi authReducer
+    ui: uiReducer
 })
 
 export const store = createStore(

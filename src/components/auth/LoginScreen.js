@@ -7,7 +7,7 @@ import { useForm } from '../../hooks/useForm';
 const LoginScreen = () => {
 
     const dispatch = useDispatch();
-    // El useDispatch le da acceso a ñlos dispatch, sirve para hacer dispatch de acciones
+    // El useDispatch le da acceso a los dispatch, sirve para hacer dispatch de acciones
 
     const [formValues, handleInputChange] = useForm({
         email: 'jose@gmail.com',
