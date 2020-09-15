@@ -5,7 +5,7 @@ const NothingSelected = () => {
         <div className="nothing__main-content">
             <p>
                 Select something
-                <hr />
+                {/* <hr /> */}
                 or create an entry!
             </p>
 
