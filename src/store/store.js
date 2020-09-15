@@ -23,3 +23,4 @@ export const store = createStore(
 // El createStore recibe un reducer y por eso le mando authReducer que es mi reducer y todo estaria bien pero,
 // El problema es que createStore solo recibe un reducer no puede recibir varios y por eso uso combineReducers
 // export el store en el punto mas alto de mi app, pero no en el index
+

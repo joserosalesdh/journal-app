@@ -12,6 +12,7 @@ import { login } from '../actions/auth';
 
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
+import { startLoadingNotes } from '../actions/notes';
 
 const AppRouter = () => {
 
@@ -22,11 +23,13 @@ const AppRouter = () => {
 
     useEffect(() => {
 
-        firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
 
             if (user?.uid) {  //user?.uid 245 min 5:15
                 dispatch(login(user.uid, user.displayName));
                 setIsLoggedIn(true); // Estoy autenticado? SI
+
+                dispatch(startLoadingNotes(user.uid));
             } else { //Caso contrario
                 setIsLoggedIn(false); // No estoy autenticado
             }
