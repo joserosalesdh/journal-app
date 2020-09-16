@@ -1,9 +1,10 @@
 import Swal from "sweetalert2";
 import { db } from "../firebase/firebase-config";
+import { fileUpload } from "../helpers/fileUpload";
 import { loadNotes } from "../helpers/loadNotes";
 import { types } from "../types/types";
 
-
+// react-journal
 
 export const startNewNote = () => {
     return async (dispatch, getState) => { // getSate funcion para obtener el state, muy parecido al useSelector pero aca ya tengo acceso al state
@@ -19,12 +20,21 @@ export const startNewNote = () => {
         const doc = await db.collection(`${uid}/journal/notes`).add(newNote)
 
         dispatch(activeNote(doc.id, newNote)); // Esto hace el dispatch al reducer
+        dispatch(addNewNote(doc.id, newNote));
 
     }
 }
 
 export const activeNote = (id, note) => ({ //Pongo los parentesis porque voy a regresar un objeto  //video 257
     type: types.notesActive,
+    payload: {
+        id,
+        ...note
+    }
+});
+
+export const addNewNote = (id, note) => ({
+    type: types.notesAddNew,
     payload: {
         id,
         ...note
@@ -73,5 +83,44 @@ export const refreshNote = (id, note) => ({
             ...note //con esto me aseguro que la nota tenga el id, me aseguro que no se borre la key
         }
     }
-})
+});
 
+export const startUploading = (file) => {
+    return async (dispatch, getState) => { //como es una tarea asincrona voy a ocupar thunk | el getState lo ocupo para saber la nota actual
+        const { active: activeNote } = getState().notes;
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        //Me creo ahora un helper fileUpload.js que se encargue de la subida del archivo 
+        const fileUrl = await fileUpload(file);
+        activeNote.url = fileUrl
+        dispatch(startSaveNote(activeNote))
+
+        Swal.close(); //Esto cierra el swetalert
+    }
+};
+
+export const startDeleting = (id) => {
+    return async (dispatch, getState) => {
+        const uid = getState().auth.uid;
+        await db.doc(`${uid}/journal/notes/${id}`).delete(); //${id}este es el id de la nota que quiero borrar
+
+        dispatch(deleteNote(id));
+    }
+};
+
+// creo una accion que modifique mi store
+export const deleteNote = (id) => ({
+    type: types.notesDelete,
+    payload: id
+});
+
+export const noteLogout = () => ({
+    type: types.notesLogoutCleaning
+});
